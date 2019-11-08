@@ -1,0 +1,33 @@
+{
+  "__required fields__": "comment",
+  "tags": {
+    "article": [
+      "author",
+      "title",
+      "year",
+      "journal"
+    ],
+    "book": [
+      "author",
+      "title",
+      "year",
+      "publisher"
+    ],
+    "all": [
+      "volume",
+      "number",
+      "pages",
+      "doi",
+      "pmid"
+    ]
+  },
+
+  "__threshold for Levenshtein ratio__": "comment",
+  "threshold": {
+    "author": 0.9,
+    "title": 0.9,
+    "journal": 0.5,
+    "publisher": 0.9,
+    "year": 1
+  }
+}
