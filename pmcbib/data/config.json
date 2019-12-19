@@ -26,8 +26,47 @@
   "threshold": {
     "author": 0.9,
     "title": 0.9,
-    "journal": 0.5,
+    "journal": 0.9,
     "publisher": 0.9,
     "year": 1
+  },
+
+  "__aliases for journal names, title, publisher, etc.__": "comment",
+  "aliases": {
+    "journal": {
+      "Journal of Neuroscience": "J. neurosci",
+      "The Journal of Neuroscience": "J. neurosci",
+      "The Journal of neuroscience : the official journal of the Society for Neuroscience": "J. neurosci",
+      "The Journal of experimental biology": "J. Exp. Biol.",
+      "Nature Neuroscience": "Nat. Neurosci",
+      "Nature Reviews Neuroscience": "Nat. Rev. Neurosci",
+      "Nature Communications": "Nat Commun",
+      "Behavioral Neuroscience": "Behav. Neurosci",
+      "Behavioural Brain Research": "Behav. Brain Res",
+      "Annual Review of Neuroscience": "Annu. Rev. Neurosci",
+      "Proceedings of the National Academy of Sciences": "PNAS",
+      "Proceedings of the National Academy of Sciences": "Proc. Natl. Acad. Sci. U.S.A",
+      "Learning and Memory": "Learn. Mem",
+      "Current Opinion in Neurobiology": "Curr. Opin. Neurobiol",
+      "Journal of Comparative Neurology": "J. Comp. Neurol",
+      "Brain and Neuroscience Advances": "Brain Neurosci Adv",
+      "Brain Research Reviews": "Brain Res Rev",
+      "IEEE Transactions on Image Processing": "IEEE Trans Image Process",
+      "Philosophical Transactions of the Royal Society B: Biological Sciences": "Philos. Trans. R. Soc. Lond., B, Biol. Sci",
+      "Brain Research": "Brain Res",
+      "Trends in Neurosciences": "Trends Neurosci",
+      "Journal of Neurophysiology": "J. Neurophysiol",
+      "Psychological Review": "Psychol Rev",
+      "Experimental Brain Research": "Exp Brain Res",
+      "Journal of Computational Neuroscience": "J Comput Neurosci",
+      "Artificial Intelligence": "Artif Intell",
+      "European Journal of Neuroscience": "Eur. J. Neurosci",
+      "Physical Review E - Statistical Physics, Plasmas, Fluids, and Related Interdisciplinary Topics": "Phys Rev E Stat Nonlin Soft Matter Phys",
+      "Neurobiology of Learning and Memory": "Neurobiol Learn Mem",
+      "PLOS Computational Biology": "PLoS Comput. Biol",
+      "Cerebral Cortex": "Cereb. Cortex",
+      "Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences": "Philos Trans A Math Phys Eng Sci",
+      "Current Biology": "Curr. Biol"
+    }
   }
 }

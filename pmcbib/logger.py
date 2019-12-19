@@ -1,4 +1,5 @@
 from datetime import datetime
+import sys
 
 severity = {
 0: u"\u001b[0m",
@@ -37,7 +38,7 @@ class logger():
         if maxS >= self.lvl:
             for s,(lvl, ind) in self.current.items():
                 tabs = ''.join(['\t' for t in range(ind)])
-                print(severity[lvl] + tabs + s + severity[0])
+                print(severity[lvl] + tabs + s + severity[0], file=sys.stderr)
 
     def _dump(self, lvl):
         for i in range(len(self.lst)):

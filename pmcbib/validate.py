@@ -10,10 +10,13 @@ dictionary = {
     'title': 'title',
 }
 
+stripsym = '~`!@#$%^&*()_-+=[]{}<>.,:;\\/?'
+
 class validator():
     def __init__(self, ops):
         self.tags = ops['tags']
         self.threshold = ops['threshold']
+        self.aliases = ops['aliases']
         self.logger = logger(ops)
 
     def check_tags(self, entry):
@@ -39,6 +42,10 @@ class validator():
             auth[i] = ' '.join(temp)
         return auth
 
+    def pack_auth(self, s):
+        auth = [', '.join(a.split(' ')) for a in s]
+        return ' and '.join(auth)
+
     def cmp_auth(self, s1, s2):
         if len(s1) != len(s2): return False, False
         matching, sorted = True, True
@@ -55,15 +62,15 @@ class validator():
         if not support:
             self.logger.log('No support for ' + entry['ENTRYTYPE'] + '. Currently, only the following entry types are supported: ' + ', '.join(set(self.tags.keys()).symmetric_difference({'all'})), 2)
             self.logger.print()
-            return
+            return entry
         if not crit:
             self.logger.log('missing critical tag(s): ' + ' '.join(missing), 3)
             self.logger.print()
-            return
+            return entry
         if article is None:
             self.logger.log('article could not be found on PubMed', 2)
             self.logger.print()
-            return
+            return entry
         if len(missing) > 0:
             self.logger.log('the following tags are missing: ' + ' '.join(missing), 1)
             self.logger.unindent()
@@ -77,6 +84,7 @@ class validator():
             self.logger.log('bib: ' + ' & '.join(self.parse_auth(entry['author'])), 3)
             self.logger.unindent()
             self.logger.unindent()
+            entry['author'] = self.pack_auth(article.authors)
         elif not sorted:
             self.logger.log('authors list misordered:', 3)
             self.logger.log('PM:  ' + ' & '.join(article.authors), 3)
@@ -84,15 +92,22 @@ class validator():
             self.logger.log('bib: ' + ' & '.join(self.parse_auth(entry['author'])), 3)
             self.logger.unindent()
             self.logger.unindent()
+            entry['author'] = self.pack_auth(article.authors)
 
         # critical comparisons
         for tag in set(self.tags[entry['ENTRYTYPE']]).symmetric_difference({'author'}):
-            if self.threshold[tag] > jaro(article.__dict__[dictionary[tag]].strip('~`!@#$%^&*()_-+=[]{}<>.,:;\\/?').lower(), entry[tag].strip('~`!@#$%^&*()_-+=[]{}<>.,:;\\/?').lower()):
+            idx = [entry[tag]]
+            if tag in self.aliases.keys():
+                for i in self.aliases[tag].keys():
+                    if jaro(idx[0].strip(stripsym).lower(), i.strip(stripsym).lower()) > self.threshold[tag]: idx.append(self.aliases[tag][i])
+            if not any([self.threshold[tag] <= jaro(article.__dict__[dictionary[tag]].strip(stripsym).lower(), i.strip(stripsym).lower()) for i in idx]):
                 self.logger.log(tag + ' mismatch:', 3)
-                self.logger.log('PM:  ' + article.__dict__[dictionary[tag]].strip('~`!@#$%^&*()_-+=[]{}<>.,:;\\/?'), 3)
+                self.logger.log('PM:  ' + article.__dict__[dictionary[tag]].strip(stripsym), 3)
                 self.logger.unindent()
-                self.logger.log('bib: ' + entry[tag].strip('~`!@#$%^&*()_-+=[]{}<>.,:;\\/?'), 3)
+                self.logger.log('bib: ' + entry[tag].strip(stripsym), 3)
                 self.logger.unindent()
                 self.logger.unindent()
+                entry[tag] = article.__dict__[dictionary[tag]]
 
         self.logger.print()
+        return entry
